@@ -46,21 +46,21 @@
                     text
                     @click="save"
                 >
-                    Add
+                    AddReview
                 </v-btn>
                 <v-btn
                     color="primary"
                     text
                     @click="save"
                 >
-                    Update
+                    UpdateReview
                 </v-btn>
                 <v-btn
                     color="primary"
                     text
                     @click="save"
                 >
-                    Delete
+                    DeleteReview
                 </v-btn>
                 <v-btn
                     color="primary"

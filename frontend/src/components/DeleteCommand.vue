@@ -9,19 +9,10 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-                    color="primary"
-                    text
-                    @click="delete"
-            >
+            <v-btn color="primary" text @click="deleteCommand">
                 Delete
             </v-btn>
-            
-            <v-btn
-                    color="primary"
-                    text
-                    @click="close"
-            >
+            <v-btn color="primary" text @click="close">
                 Close
             </v-btn>
         </v-card-actions>
@@ -30,30 +21,28 @@
 </template>
 
 <script>
-   
-    export default {
-        name: 'DeleteCommand',
-        components:{},
-        props: {},
-        data: () => ({
-            editMode: true,
-            value: {},
-        }),
-        created() {
+export default {
+    name: 'DeleteCommand',
+    props: {},
+    data: () => ({
+        editMode: true,
+        value: {},
+    }),
+    created() {
+    },
+    watch: {
+    },
+    methods: {
+        deleteCommand() {
+            this.$emit('delete', this.value);
         },
-        watch: {
+        close() {
+            this.$emit('closeDialog');
         },
-        methods: {
-            delete() {
-                this.$emit('delete', this.value);
-            },
-            close() {
-                this.$emit('closeDialog');
-            },
-            change() {
-                this.$emit('input', this.value);
-            },
-        }
+        change() {
+            this.$emit('input', this.value);
+        },
     }
+}
 </script>
 

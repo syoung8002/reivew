@@ -8,6 +8,9 @@ import java.util.Map;
 import javax.persistence.*;
 import lombok.Data;
 import review.ReviewApplication;
+import review.domain.ReviewAdded;
+import review.domain.ReviewDeleted;
+import review.domain.ReviewUpdated;
 
 @Entity
 @Table(name = "Review_table")
@@ -26,6 +29,21 @@ public class Review {
     private String text;
 
     private String userId;
+
+    @PostPersist
+    public void onPostPersist() {
+        ReviewAdded reviewAdded = new ReviewAdded(this);
+        reviewAdded.publishAfterCommit();
+
+        ReviewDeleted reviewDeleted = new ReviewDeleted(this);
+        reviewDeleted.publishAfterCommit();
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        ReviewUpdated reviewUpdated = new ReviewUpdated(this);
+        reviewUpdated.publishAfterCommit();
+    }
 
     public static ReviewRepository repository() {
         ReviewRepository reviewRepository = ReviewApplication.applicationContext.getBean(
