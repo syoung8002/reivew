@@ -2,8 +2,10 @@
     <v-app>
         <v-main>
             <v-container fluid>
-                <!-- <review-review-detail></review-review-detail> -->
-                <review-review-manager :data="data"></review-review-manager>
+                <component 
+                    v-bind:is="componentName" 
+                    :data="data"
+                ></component>
             </v-container>
         </v-main>
     </v-app>
@@ -11,29 +13,34 @@
 
 <script>
 import ReviewReviewManager from "./components/listers/ReviewReviewCards"
-// import ReviewReviewDetail from "./components/listers/ReviewReviewDetail"
+import ReviewReviewDetail from "./components/listers/ReviewReviewDetail"
 
 export default {
     name: "App",
     components: {
         "review-review-manager": ReviewReviewManager,
-        // "review-review-detail": ReviewReviewDetail
+        "review-review-detail": ReviewReviewDetail
     },
     props: {
         data: Object
     },
+    data() {
+        return {
+            componentName: "review-review-manager"
+        }
+    },
     mounted() {
-        console.log(this.data)
         if (this.data) {
-            if (this.data.itemId) {
-                //
-            } else if (this.data.reviewId) {
-                //
+            if (this.data.id) {
+                this.componentName = "review-review-detail";
+            } else {
+                this.componentName = "review-review-manager";
             }
         }
-    }
+    },
 };
 </script>
+
 
 <style>
 </style>

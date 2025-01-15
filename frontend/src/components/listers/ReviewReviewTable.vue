@@ -31,7 +31,7 @@
                         </v-fab-transition>
                     </template>
 
-                    <ReviewReview class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <ReviewReview :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
                             style="position:absolute; top:2%; right:2%"
@@ -50,7 +50,7 @@
 
 <script>
     const axios = require('axios').default;
-    import ReviewReview from './../ReviewReview.vue';
+    import ReviewReview from '../ReviewReview.vue';
 
     export default {
         name: 'ReviewReviewManager',
@@ -76,10 +76,14 @@
             openDialog : false,
         }),
         async created() {
-            var temp = await axios.get(axios.fixUrl('/reviews'))
-            temp.data._embedded.reviews.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
-            this.values = temp.data._embedded.reviews;
-
+            try {
+                var temp = await axios.get(axios.fixUrl('/reviews'));
+                temp.data._embedded.reviews.map(obj => obj.id = obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1]);
+                this.values = temp.data._embedded.reviews;
+            } catch (e) {
+                this.values = [];
+            }
+            
             this.newValue = {
                 'itemId': '',
                 'rating': 0,

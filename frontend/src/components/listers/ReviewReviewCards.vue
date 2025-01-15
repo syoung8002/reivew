@@ -13,7 +13,7 @@
                 </v-list-item>
             </v-row>
         </v-card>
-        <v-col style="margin-bottom:40px;">
+        <div style="margin-bottom:40px;">
             <div class="text-center">
                 <v-dialog v-model="openDialog"
                     width="332.5"
@@ -21,7 +21,7 @@
                     hide-overlay
                     transition="dialog-bottom-transition"
                 >
-                    <ReviewReview class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <ReviewReview :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
 
                     <v-btn style="position:absolute; top:2%; right:2%" @click="closeDialog()" depressed icon absolute>
                         <v-icon>mdi-close</v-icon>
@@ -59,15 +59,14 @@
                     </v-card>
                 </v-row>
             </div>
-        </v-col>
-        <v-row>
-            <ReviewReview 
-                v-for="(value, index) in values" 
-                :key="index" 
-                class="video-card"
-                v-model="value" 
-                @delete="remove"
-            ></ReviewReview>
+        </div>
+        <v-row justify="center">
+            <v-col v-for="(value, index) in values" :key="index" cols="auto">
+                <ReviewReview 
+                    :value="value" 
+                    @delete="remove"
+                ></ReviewReview>
+            </v-col>
         </v-row>
     </div>
 </template>
@@ -92,19 +91,26 @@ export default {
     }),
     async created() {
         var me = this;
-        var temp = null;
-        var url = '/reviews';
-        if (me.data && me.data.itemId) {
-            url = '/reviews/search/findByItemId?itemId=' + me.data.itemId;
-        }
-        temp = await axios.get(axios.fixUrl(url));
-        me.values = temp.data._embedded.reviews;
-        
-        me.newValue = {
-            'itemId': 0,
-            'rating': 0,
-            'text': '',
-            'userId': '',
+        try {
+            var temp = null;
+            var url = '/reviews';
+            if (me.data && me.data.itemId) {
+                url = '/reviews/search/findByItemId?itemId=' + me.data.itemId;
+            }
+            temp = await axios.get(axios.fixUrl(url));
+            if (temp.data) {
+                me.values = temp.data._embedded.reviews;
+            } else {
+                me.value = [];
+            }
+            me.newValue = {
+                'itemId': '',
+                'rating': 0,
+                'text': '',
+                'userId': '',
+            }
+        } catch(e) {
+            console.log(e);
         }
     },
     methods:{
@@ -140,11 +146,5 @@ export default {
 </script>
 
 <style>
-.video-card {
-    width:300px; 
-    margin-left:4.5%; 
-    margin-top:50px; 
-    margin-bottom:50px;
-}
 </style>
 

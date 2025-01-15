@@ -1,7 +1,7 @@
 <template>
     <v-card outlined>
         <v-card-title>
-            Review # {{item._links.self.href.split("/")[item._links.self.href.split("/").length - 1]}}
+            Review # {{ data && data.id ? data.id : '' }}
         </v-card-title>
 
         <v-card-text>
@@ -53,17 +53,23 @@ export default {
     }),
     async created() {
         var me = this;
-        var params = this.data
-        var temp = await axios.get(axios.fixUrl('/reviews/' + params.itemId))
-        if(temp.data) {
-            me.item = temp.data
+        var params = this.data;
+        try {
+            var temp = await axios.get(axios.fixUrl('/reviews/' + params.id))
+            if(temp.data) {
+                me.item = temp.data
+            } else {
+                me.item = null;
+            }
+        } catch (e) {
+            console.log(e)
         }
     },
     methods: {
         edit() {
             this.editMode = true;
         },
-        async remove(){
+        async remove() {
             try {
                 await axios.delete(axios.fixUrl(this.item._links.self.href))
                 this.editMode = false;
@@ -74,6 +80,9 @@ export default {
             } catch(e) {
                 console.log(e)
             }
+        },
+        change() {
+            this.$emit('input', this.item);
         },
     },
 };

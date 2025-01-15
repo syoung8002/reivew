@@ -15,14 +15,14 @@
             Review
         </v-card-title>
 
-        <v-card-text style="background-color: white;">
+        <v-card-text>
             <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''"/>
             <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''"/>
             <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''"/>
             <String label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
-        <v-card-actions style="background-color: white;">
+        <v-card-actions>
             <v-spacer></v-spacer>
             <div v-if="!editMode">
                 <v-btn
@@ -71,9 +71,6 @@
                     취소
                 </v-btn>
             </div>
-        </v-card-actions>
-        <v-card-actions>
-            <v-spacer></v-spacer>
         </v-card-actions>
 
         <v-snackbar
