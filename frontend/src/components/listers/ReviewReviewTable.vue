@@ -88,7 +88,7 @@
             this.values = temp.data._embedded.reviews;
 
             this.newValue = {
-                'itemId': 0,
+                'itemId': '',
                 'rating': 0,
                 'text': '',
                 'userId': '',

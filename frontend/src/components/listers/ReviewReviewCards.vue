@@ -104,7 +104,7 @@
             me.values = temp.data._embedded.reviews;
             
             me.newValue = {
-                'itemId': 0,
+                'itemId': '',
                 'rating': 0,
                 'text': '',
                 'userId': '',

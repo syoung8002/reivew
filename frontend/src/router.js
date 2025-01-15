@@ -8,8 +8,6 @@ Vue.use(Router);
 import ReviewReviewManager from "./components/listers/ReviewReviewCards"
 import ReviewReviewDetail from "./components/listers/ReviewReviewDetail"
 
-import ReviewsView from "./components/ReviewsView"
-import ReviewsViewDetail from "./components/ReviewsViewDetail"
 
 export default new Router({
     // mode: 'history',
@@ -26,16 +24,6 @@ export default new Router({
                 component: ReviewReviewDetail
             },
 
-            {
-                path: '/reviews/reviews',
-                name: 'ReviewsView',
-                component: ReviewsView
-            },
-            {
-                path: '/reviews/reviews/:id',
-                name: 'ReviewsViewDetail',
-                component: ReviewsViewDetail
-            },
 
 
     ]
