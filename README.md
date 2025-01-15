@@ -1,7 +1,7 @@
 # 
 
 ## Model
-www.msaez.io/#/48265118/storming/reivew_example_0114
+www.msaez.io/#/48265118/storming/review-example
 
 ## Before Running Services
 ### Make sure there is a Kafka server running
