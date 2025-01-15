@@ -16,7 +16,7 @@
         </v-card-title>
 
         <v-card-text style="background-color: white;">
-            <Number label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''"/>
+            <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''"/>
             <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''"/>
             <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''"/>
             <String label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''"/>

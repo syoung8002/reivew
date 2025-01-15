@@ -31,12 +31,12 @@ spring:
         event-in:
           group: review
 #<<< EDA / Topic Name
-          destination: reivew
+          destination: review
 #>>> EDA / Topic Name
           contentType: application/json
         event-out:
 #<<< EDA / Topic Name
-          destination: reivew
+          destination: review
 #>>> EDA / Topic Name
           contentType: application/json
 
@@ -75,10 +75,10 @@ spring:
       bindings:
         event-in:
           group: review
-          destination: reivew
+          destination: review
           contentType: application/json
         event-out:
-          destination: reivew
+          destination: review
           contentType: application/json
 
 
