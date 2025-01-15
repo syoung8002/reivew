@@ -13,7 +13,7 @@
         </v-card-title >
         <v-card-title v-else>
             Review
-        </v-card-title >        
+        </v-card-title>
 
         <v-card-text style="background-color: white;">
             <Number label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''"/>
@@ -88,127 +88,120 @@
             </v-btn>
         </v-snackbar>
     </v-card>
-
 </template>
 
 <script>
-    const axios = require('axios').default;
+const axios = require('axios').default;
 
+export default {
+    name: 'ReviewReview',
+    components:{
+    },
+    props: {
+        value: [Object, String, Number, Boolean, Array],
+        editMode: Boolean,
+        isNew: Boolean,
+    },
+    data: () => ({
+        snackbar: {
+            status: false,
+            timeout: 5000,
+            text: '',
+        },
+    }),
+    async created() {
+    },
+    methods: {
+        decode(value) {
+            return decodeURIComponent(value);
+        },
+        selectFile(){
+            if(this.editMode == false) {
+                return false;
+            }
+            var me = this
+            var input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/*";
+            input.id = "uploadInput";
+            
+            input.click();
+            input.onchange = function (event) {
+                var file = event.target.files[0]
+                var reader = new FileReader();
 
-    export default {
-        name: 'ReviewReview',
-        components:{
-        },
-        props: {
-            value: [Object, String, Number, Boolean, Array],
-            editMode: Boolean,
-            isNew: Boolean,
-            offline: Boolean,
-        },
-        data: () => ({
-            snackbar: {
-                status: false,
-                timeout: 5000,
-                text: '',
-            },
-        }),
-	async created() {
-        },
-        methods: {
-            decode(value) {
-                return decodeURIComponent(value);
-            },
-            selectFile(){
-                if(this.editMode == false) {
-                    return false;
-                }
-                var me = this
-                var input = document.createElement("input");
-                input.type = "file";
-                input.accept = "image/*";
-                input.id = "uploadInput";
-                
-                input.click();
-                input.onchange = function (event) {
-                    var file = event.target.files[0]
-                    var reader = new FileReader();
-
-                    reader.onload = function () {
-                        var result = reader.result;
-                        me.imageUrl = result;
-                        me.value.photo = result;
-                        
-                    };
-                    reader.readAsDataURL( file );
+                reader.onload = function () {
+                    var result = reader.result;
+                    me.imageUrl = result;
+                    me.value.photo = result;
+                    
                 };
-            },
-            edit() {
-                this.editMode = true;
-            },
-            async save(){
-                try {
-                    var temp = null;
-
-                    if(!this.offline) {
-                        if(this.isNew) {
-                            temp = await axios.post(axios.fixUrl('/reviews'), this.value)
-                        } else {
-                            temp = await axios.put(axios.fixUrl(this.value._links.self.href), this.value)
-                        }
-                    }
-
-                    if(this.value!=null) {
-                        for(var k in temp.data) this.value[k]=temp.data[k];
-                    } else {
-                        this.value = temp.data;
-                    }
-
-                    this.editMode = false;
-                    this.$emit('input', this.value);
-
-                    if (this.isNew) {
-                        this.$emit('add', this.value);
-                    } else {
-                        this.$emit('edit', this.value);
-                    }
-
-                    location.reload()
-
-                } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
-                }
-                
-            },
-            async remove(){
-                try {
-                    if (!this.offline) {
-                        await axios.delete(axios.fixUrl(this.value._links.self.href))
-                    }
-
-                    this.editMode = false;
-                    this.isDeleted = true;
-
-                    this.$emit('input', this.value);
-                    this.$emit('delete', this.value);
-
-                } catch(e) {
-                    this.snackbar.status = true
-                    if(e.response && e.response.data.message) {
-                        this.snackbar.text = e.response.data.message
-                    } else {
-                        this.snackbar.text = e
-                    }
-                }
-            },
-            change(){
-                this.$emit('input', this.value);
-            },
+                reader.readAsDataURL( file );
+            };
         },
-    }
+        edit() {
+            this.editMode = true;
+        },
+        async save(){
+            try {
+                var temp = null;
+
+                if(this.isNew) {
+                    temp = await axios.post(axios.fixUrl('/reviews'), this.value)
+                } else {
+                    temp = await axios.put(axios.fixUrl(this.value._links.self.href), this.value)
+                }
+
+                if(this.value!=null) {
+                    for(var k in temp.data) this.value[k]=temp.data[k];
+                } else {
+                    this.value = temp.data;
+                }
+
+                this.editMode = false;
+                this.$emit('input', this.value);
+
+                if (this.isNew) {
+                    this.$emit('add', this.value);
+                } else {
+                    this.$emit('edit', this.value);
+                }
+
+                location.reload()
+
+            } catch(e) {
+                this.snackbar.status = true
+                if(e.response && e.response.data.message) {
+                    this.snackbar.text = e.response.data.message
+                } else {
+                    this.snackbar.text = e
+                }
+            }
+            
+        },
+        async remove(){
+            try {
+                await axios.delete(axios.fixUrl(this.value._links.self.href))
+
+                this.editMode = false;
+                this.isDeleted = true;
+
+                this.$emit('input', this.value);
+                this.$emit('delete', this.value);
+
+            } catch(e) {
+                this.snackbar.status = true
+                if(e.response && e.response.data.message) {
+                    this.snackbar.text = e.response.data.message
+                } else {
+                    this.snackbar.text = e
+                }
+            }
+        },
+        change(){
+            this.$emit('input', this.value);
+        },
+    },
+}
 </script>
 

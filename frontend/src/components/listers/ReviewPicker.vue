@@ -40,56 +40,47 @@
 
 
 <script>
-    const axios = require('axios').default;
+const axios = require('axios').default;
 
-    export default {
-        name: 'ReviewReviewPicker',
-        props: {
-            value: [String, Object, Array, Number, Boolean],
-        },
-        data: () => ({
-            list: [],
-            selected: null,
-        }),
-        async created() {
-            var me = this;
-            var temp = await axios.get(axios.fixUrl('/reviews'))
-            if(temp.data) {
-                me.list = temp.data._embedded.reviews;
-            }
+export default {
+    name: 'ReviewReviewPicker',
+    props: {
+        value: [String, Object, Array, Number, Boolean],
+    },
+    data: () => ({
+        list: [],
+        selected: null,
+    }),
+    async created() {
+        var me = this;
+        var temp = await axios.get(axios.fixUrl('/reviews'))
+        if(temp.data) {
+            me.list = temp.data._embedded.reviews;
+        }
 
-            if(me.value && typeof me.value == "object" && Object.values(me.value)[0]) {
-                var id = Object.values(me.value)[0];
-                var tmpValue = await axios.get(axios.fixUrl('/reviews/' + id))
-                if(tmpValue.data) {
-                    var val = tmpValue.data
-                    me.list.forEach(function(item, idx) {
-                        if(item.name == val.name) {
-                            me.selected = idx
-                        }
-                    })
-                }
+        if(me.value && typeof me.value == "object" && Object.values(me.value)[0]) {
+            var id = Object.values(me.value)[0];
+            var tmpValue = await axios.get(axios.fixUrl('/reviews/' + id))
+            if(tmpValue.data) {
+                var val = tmpValue.data
+                me.list.forEach(function(item, idx) {
+                    if(item.name == val.name) {
+                        me.selected = idx
+                    }
+                })
+            }
+        }
+    },
+    methods: {
+        select(val) {
+            var obj = {}
+            if(val != undefined) {
+                var arr = this.list[val]._links.self.href.split('/');
+                obj['id'] = arr[4]; 
+                this.$emit('selected', obj);
             }
         },
-        methods: {
-            select(val) {
-                var obj = {}
-                if(val != undefined) {
-                    var arr = this.list[val]._links.self.href.split('/');
-                    obj['id'] = arr[4]; 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    this.$emit('selected', obj);
-                }
-            },
-        },
-    };
+    },
+};
 </script>
 

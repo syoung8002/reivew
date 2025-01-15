@@ -12,7 +12,7 @@ spring:
         - id: review
           uri: http://localhost:8082
           predicates:
-            - Path=/reviews/**, /reviews/**
+            - Path=/reviews/**
         - id: frontend
           uri: http://localhost:8080
           predicates:

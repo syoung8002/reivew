@@ -31,10 +31,10 @@
                         </v-fab-transition>
                     </template>
 
-                    <ReviewReview :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <ReviewReview class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
-                            style="postition:absolute; top:2%; right:2%"
+                            style="position:absolute; top:2%; right:2%"
                             @click="closeDialog()"
                             depressed 
                             icon 
@@ -58,7 +58,6 @@
             ReviewReview,
         },
         props: {
-            offline: Boolean,
             editMode: Boolean,
             isNew: Boolean
         },
@@ -72,17 +71,11 @@
                     { text: "text", value: "text" },
                     { text: "userId", value: "userId" },
                 ],
-            review : [],
             newValue: {},
             tick : true,
             openDialog : false,
         }),
         async created() {
-            if(this.offline){
-                if(!this.values) this.values = [];
-                return;
-            }
-
             var temp = await axios.get(axios.fixUrl('/reviews'))
             temp.data._embedded.reviews.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
             this.values = temp.data._embedded.reviews;

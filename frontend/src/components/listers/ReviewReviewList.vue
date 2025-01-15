@@ -1,6 +1,6 @@
 <template>
     <div>
-    <h1>Review</h1>
+        <h1>Review</h1>
         <v-row>
             <v-card
                 class="mx-auto"
@@ -40,11 +40,6 @@
 
                     <v-list-item-content>
                         <v-list-item-title style="margin-bottom:10px;">
-                            
-                            
-                            
-                            
-                            
                         </v-list-item-title>
 
                         <v-list-item-subtitle style="font-size:25px; font-weight:700;">
@@ -71,11 +66,9 @@
                         hide-overlay
                         transition="dialog-bottom-transition"
                 >
-
-                    <ReviewReview :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <ReviewReview class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
-                    <v-btn
-                            style="postition:absolute; top:2%; right:2%"
+                    <v-btn style="position:absolute; top:2%; right:2%"
                             @click="closeDialog()"
                             depressed 
                             icon 
@@ -99,7 +92,6 @@
             ReviewReview,
         },
         props: {
-            offline: Boolean,
             editMode: Boolean,
             isNew: Boolean
         },
@@ -110,11 +102,6 @@
             openDialog : false,
         }),
         async created() {
-            if(this.offline){
-                if(!this.values) this.values = [];
-                return;
-            } 
-
             var temp = await axios.get(axios.fixUrl('/reviews'))
             temp.data._embedded.reviews.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
             this.values = temp.data._embedded.reviews;

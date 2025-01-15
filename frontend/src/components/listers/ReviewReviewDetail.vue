@@ -20,38 +20,17 @@
         </v-card-text>
 
         <v-card-actions>
-            <v-btn text color="deep-purple lighten-2" large @click="goList">List</v-btn>
             <v-spacer></v-spacer>
-            <v-btn
-                    color="primary"
-                    text
-                    @click="edit"
-                    v-if="!editMode"
-            >
+            <v-btn color="primary" text @click="edit" v-if="!editMode">
                 Edit
             </v-btn>
-            <v-btn
-                    color="primary"
-                    text
-                    @click="save"
-                    v-else
-            >
+            <v-btn color="primary" text @click="save" v-else>
                 Save
             </v-btn>
-            <v-btn
-                    color="primary"
-                    text
-                    @click="remove"
-                    v-if="!editMode"
-            >
+            <v-btn v-if="!editMode" color="primary" text @click="remove">
                 Delete
             </v-btn>
-            <v-btn
-                    color="primary"
-                    text
-                    @click="editMode = false"
-                    v-if="editMode"
-            >
+            <v-btn v-if="editMode" color="primary" text @click="editMode = false">
                 Cancel
             </v-btn>
         </v-card-actions>
@@ -60,49 +39,42 @@
 
 
 <script>
-    const axios = require('axios').default;
+const axios = require('axios').default;
 
-    export default {
-        name: 'ReviewReviewDetail',
-        components:{},
-        props: {
+export default {
+    name: 'ReviewReviewDetail',
+    components:{},
+    props: {
+        data: Object
+    },
+    data: () => ({
+        item: null,
+        editMode: false,
+    }),
+    async created() {
+        var me = this;
+        var params = this.data
+        var temp = await axios.get(axios.fixUrl('/reviews/' + params.itemId))
+        if(temp.data) {
+            me.item = temp.data
+        }
+    },
+    methods: {
+        edit() {
+            this.editMode = true;
         },
-        data: () => ({
-            item: null,
-            editMode: false,
-        }),
-        async created() {
-            var me = this;
-            var params = this.$route.params;
-            var temp = await axios.get(axios.fixUrl('/reviews/' + params.id))
-            if(temp.data) {
-                me.item = temp.data
+        async remove(){
+            try {
+                await axios.delete(axios.fixUrl(this.item._links.self.href))
+                this.editMode = false;
+
+                this.$emit('input', this.item);
+                this.$emit('delete', this.item);
+
+            } catch(e) {
+                console.log(e)
             }
         },
-        methods: {
-            goList() {
-                var path = window.location.href.slice(window.location.href.indexOf("/#/"), window.location.href.lastIndexOf("/#"));
-                path = path.replace("/#/", "/");
-                this.$router.push(path);
-            },
-            edit() {
-                this.editMode = true;
-            },
-            async remove(){
-                try {
-                    if (!this.offline) {
-                        await axios.delete(axios.fixUrl(this.item._links.self.href))
-                    }
-
-                    this.editMode = false;
-
-                    this.$emit('input', this.item);
-                    this.$emit('delete', this.item);
-
-                } catch(e) {
-                    console.log(e)
-                }
-            },
-        },
-    };
+    },
+};
 </script>

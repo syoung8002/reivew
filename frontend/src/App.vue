@@ -1,53 +1,39 @@
 <template>
-    <v-app id="inspire">
-        <SNSApp />
+    <v-app>
+        <v-main>
+            <v-container fluid>
+                <!-- <review-review-detail></review-review-detail> -->
+                <review-review-manager :data="data"></review-review-manager>
+            </v-container>
+        </v-main>
     </v-app>
 </template>
 
 <script>
-import SNSApp from './SNSApp.vue'
+import ReviewReviewManager from "./components/listers/ReviewReviewCards"
+// import ReviewReviewDetail from "./components/listers/ReviewReviewDetail"
 
 export default {
-
-    components: {
-        SNSApp
-    },
     name: "App",
-    data: () => ({
-        useComponent: "",
-        drawer: true,
-        components: [],
-        sideBar: true,
-        urlPath: null,
-    }),
-    
-    async created() {
-      var path = document.location.href.split("#/")
-      this.urlPath = path[1];
-
+    components: {
+        "review-review-manager": ReviewReviewManager,
+        // "review-review-detail": ReviewReviewDetail
     },
-
+    props: {
+        data: Object
+    },
     mounted() {
-        var me = this;
-        me.components = this.$ManagerLists;
-    },
-
-    methods: {
-        openSideBar(){
-            this.sideBar = !this.sideBar
-        },
-        changeUrl() {
-            var path = document.location.href.split("#/")
-            this.urlPath = path[1];
-        },
-        goHome() {
-            this.urlPath = null;
-        },
+        console.log(this.data)
+        if (this.data) {
+            if (this.data.itemId) {
+                //
+            } else if (this.data.reviewId) {
+                //
+            }
+        }
     }
 };
 </script>
+
 <style>
-*{
-    font-family:  !important;
-}
 </style>
