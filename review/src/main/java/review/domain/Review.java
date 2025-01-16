@@ -30,6 +30,9 @@ public class Review {
 
     private String userId;
 
+    @Lob
+    private String userImg;
+
     @PostPersist
     public void onPostPersist() {
         ReviewAdded reviewAdded = new ReviewAdded(this);

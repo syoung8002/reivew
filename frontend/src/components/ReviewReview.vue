@@ -20,6 +20,7 @@
             <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''"/>
             <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''"/>
             <String label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''"/>
+            <LargeObject label="UserImg" v-model="value.userImg" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions>

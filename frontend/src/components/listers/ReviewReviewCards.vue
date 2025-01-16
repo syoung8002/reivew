@@ -45,6 +45,7 @@ export default {
                 'rating': 0,
                 'text': '',
                 'userId': '',
+                'userImg': '',
             }
         } catch(e) {
             console.log(e);
