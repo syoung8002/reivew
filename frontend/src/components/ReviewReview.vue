@@ -1,26 +1,21 @@
 <template>
-    <v-card style="width:450px; height:100%;" outlined>
-        <template slot="progress">
-            <v-progress-linear
-                    color="primary-darker-1"
-                    height="10"
-                    indeterminate
-            ></v-progress-linear>
-        </template>
-
-        <v-card-title v-if="value._links">
-            Review # {{decode(value._links.self.href.split("/")[value._links.self.href.split("/").length - 1])}}
-        </v-card-title >
+    <v-card width="450" outlined>
+        <v-card-title v-if="!editMode">
+            <v-avatar size="40">
+                <v-img v-if="value.userImg && value.userImg.length > 0" :src="value.userImg"></v-img>
+                <v-icon v-else>mdi-account</v-icon>
+            </v-avatar>
+            <span class="ml-2">{{ value.userId }}</span>
+        </v-card-title>
         <v-card-title v-else>
             Review
         </v-card-title>
 
         <v-card-text>
-            <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''"/>
-            <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''"/>
-            <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''"/>
-            <String label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''"/>
-            <LargeObject label="UserImg" v-model="value.userImg" :editMode="editMode" :inputUI="''"/>
+            <String v-if="editMode" label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''" />
+            <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''" />
+            <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''" />
+            <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''" />
         </v-card-text>
 
         <v-card-actions>
@@ -65,21 +60,30 @@ const axios = require('axios').default;
 
 export default {
     name: 'ReviewReview',
-    components:{
-    },
     props: {
         value: [Object, String, Number, Boolean, Array],
-        editMode: Boolean,
         isNew: Boolean,
     },
     data: () => ({
+        editMode: false,
         snackbar: {
             status: false,
             timeout: 5000,
             text: '',
         },
     }),
-    async created() {
+    computed: {
+        id() {
+            if (this.value && this.value._links) {
+                return this.value._links.self.href.split("/")[this.value._links.self.href.split("/").length - 1];
+            }
+            return '';
+        }
+    },
+    created() {
+        if (this.isNew) {
+            this.editMode = true;
+        }
     },
     methods: {
         decode(value) {
@@ -119,7 +123,7 @@ export default {
                 if(this.isNew) {
                     temp = await axios.post(axios.fixUrl('/reviews'), this.value)
                 } else {
-                    temp = await axios.put(axios.fixUrl(this.value._links.self.href), this.value)
+                    temp = await axios.put(axios.fixUrl('/reviews/' + this.id), this.value)
                 }
 
                 if(this.value!=null) {
@@ -133,8 +137,6 @@ export default {
 
                 if (this.isNew) {
                     this.$emit('add', this.value);
-                } else {
-                    this.$emit('edit', this.value);
                 }
 
                 location.reload()

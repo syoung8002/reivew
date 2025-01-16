@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="justify-center">
         <div v-for="(value, index) in values" :key="index" class="my-4">
-            <ReviewReview :isNew="false" :value="value" @delete="remove" class="mx-auto" />
+            <ReviewReview :isNew="false" :value="value" @delete="remove" @edit="edit" class="mx-auto" />
         </div>
         <div>
-            <ReviewReview :isNew="true" :editMode="true" v-model="newValue" @add="append" class="mx-auto" />
+            <ReviewReview :isNew="true" v-model="newValue" @add="append" class="mx-auto" />
         </div>
     </div>
 </template>
