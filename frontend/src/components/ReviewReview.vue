@@ -13,7 +13,14 @@
 
         <v-card-text>
             <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''" />
-            <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''" />
+            <v-rating
+                v-model="value.rating"
+                color="yellow"
+                background-color="grey"
+                dense
+                :readonly="!editMode"
+                length="5"
+            ></v-rating>
             <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''" />
             <String v-if="editMode" label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''" />
         </v-card-text>
