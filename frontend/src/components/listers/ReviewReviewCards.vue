@@ -23,54 +23,57 @@ export default {
     },
     data: () => ({
         values: [],
-        newValue: {},
+        newValue: {
+            'itemId': '',
+            'rating': 0,
+            'text': '',
+            'userId': '',
+            'userImg': '',
+        },
         openDialog : false,
+        itemId: '',
     }),
-    async created() {
+    created() {
         var me = this;
-        try {
-            var temp = null;
-            var url = '/reviews';
-            if (me.data && me.data.itemId) {
-                url = '/reviews/search/findByItemId?itemId=' + me.data.itemId;
+        me.itemId = '';
+        me.getReviewList();
+    },
+    methods:{
+        async getReviewList() {
+            var me = this;
+            try {
+                var temp = null;
+                var url = '/reviews';
+                if (me.data && me.data.itemId) {
+                    me.itemId = me.data.itemId;
+                    url = '/reviews/search/findByItemId?itemId=' + me.itemId;
+                }
+                temp = await axios.get(axios.fixUrl(url));
+                if (temp.data) {
+                    me.values = temp.data._embedded.reviews;
+                } else {
+                    me.value = [];
+                }
+            } catch(e) {
+                console.log(e);
             }
-            temp = await axios.get(axios.fixUrl(url));
-            if (temp.data) {
-                me.values = temp.data._embedded.reviews;
-            } else {
-                me.value = [];
-            }
-            me.newValue = {
-                'itemId': '',
+        },
+        append(){
+            this.getReviewList();
+            this.newValue = {
+                'itemId': this.itemId,
                 'rating': 0,
                 'text': '',
                 'userId': '',
                 'userImg': '',
-            }
-        } catch(e) {
-            console.log(e);
+            };
+        },
+        remove() {
+            this.getReviewList();
+        },
+        edit() {
+            this.getReviewList();
         }
-    },
-    methods:{
-        append(value){
-            this.newValue = {}
-            this.values.push(value)
-            
-            this.$emit('input', this.values);
-        },
-        remove(value){
-            var where = -1;
-            for(var i=0; i<this.values.length; i++){
-                if(this.values[i]._links.self.href == value._links.self.href){
-                    where = i;
-                    break;
-                }
-            }
-            if(where > -1){
-                this.values.splice(i, 1);
-                this.$emit('input', this.values);
-            }
-        },
     }
 };
 </script>
