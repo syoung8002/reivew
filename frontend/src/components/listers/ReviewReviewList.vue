@@ -45,6 +45,7 @@
                             
                             
                             
+                            
                         </v-list-item-title>
 
                         <v-list-item-subtitle style="font-size:25px; font-weight:700;">
@@ -53,6 +54,7 @@
                             [ Rating :  {{data.rating }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ Text :  {{data.text }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ UserId :  {{data.userId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ UserImg :  {{data.userImg }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </v-list-item-subtitle>
 
                     </v-list-item-content>
@@ -124,6 +126,7 @@
                 'rating': 0,
                 'text': '',
                 'userId': '',
+                'userImg': '',
             }
         },
         methods: {

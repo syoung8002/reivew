@@ -71,6 +71,7 @@
                     { text: "rating", value: "rating" },
                     { text: "text", value: "text" },
                     { text: "userId", value: "userId" },
+                    { text: "userImg", value: "userImg" },
                 ],
             review : [],
             newValue: {},
@@ -92,6 +93,7 @@
                 'rating': 0,
                 'text': '',
                 'userId': '',
+                'userImg': '',
             }
         },
         methods: {

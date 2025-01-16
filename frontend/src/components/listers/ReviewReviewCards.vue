@@ -108,6 +108,7 @@
                 'rating': 0,
                 'text': '',
                 'userId': '',
+                'userImg': '',
             }
         },
         methods:{

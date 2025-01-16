@@ -16,6 +16,7 @@ public class ReviewDeleted extends AbstractEvent {
     private Double rating;
     private String text;
     private String userid;
+    private String userimg;
 
     public ReviewDeleted(Review aggregate) {
         super(aggregate);

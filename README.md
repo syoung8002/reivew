@@ -32,7 +32,7 @@ mvn spring-boot:run
 ## Test by API
 - review
 ```
- http :8088/reviews id="id"itemId="itemId"rating="rating"text="text"userId="userId"
+ http :8088/reviews id="id"itemId="itemId"rating="rating"text="text"userId="userId"userImg="userImg"
 ```
 
 

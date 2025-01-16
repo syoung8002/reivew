@@ -9,6 +9,7 @@
                 <v-list-item v-for="(item, idx) in list" :key="idx">
                     <template v-slot:default="{ active }">
                         <v-list-item-avatar color="primary-darker-1">
+                            <v-img :src="item.userImg"></v-img>
                         </v-list-item-avatar>
                         
                         <v-list-item-content>
@@ -77,6 +78,8 @@
                 if(val != undefined) {
                     var arr = this.list[val]._links.self.href.split('/');
                     obj['id'] = arr[4]; 
+                    
+                    
                     
                     
                     
