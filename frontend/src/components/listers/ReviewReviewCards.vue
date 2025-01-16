@@ -1,12 +1,12 @@
 <template>
-    <div class="justify-center">
-        <div v-for="(value, index) in values" :key="index" class="my-4">
+    <v-row class="justify-center">
+        <v-col v-for="(value, index) in values" :key="index" cols="auto" >
             <ReviewReview :isNew="false" :value="value" @delete="remove" @edit="edit" class="mx-auto" />
-        </div>
-        <div>
+        </v-col>
+        <v-col cols="auto">
             <ReviewReview :isNew="true" v-model="newValue" @add="append" class="mx-auto" />
-        </div>
-    </div>
+        </v-col>
+    </v-row>
 </template>
 
 <script>

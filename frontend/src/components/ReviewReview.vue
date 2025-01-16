@@ -12,10 +12,10 @@
         </v-card-title>
 
         <v-card-text>
-            <String v-if="editMode" label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''" />
             <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''" />
             <Number label="Rating" v-model="value.rating" :editMode="editMode" :inputUI="''" />
             <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''" />
+            <String v-if="editMode" label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''" />
         </v-card-text>
 
         <v-card-actions>
