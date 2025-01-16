@@ -133,21 +133,18 @@ export default {
                     temp = await axios.put(axios.fixUrl('/reviews/' + this.id), this.value)
                 }
 
-                if(this.value!=null) {
+                if(this.value != null) {
                     for(var k in temp.data) this.value[k]=temp.data[k];
                 } else {
                     this.value = temp.data;
                 }
 
-                this.editMode = false;
-                this.$emit('input', this.value);
-
                 if (this.isNew) {
-                    this.$emit('add', this.value);
+                    this.$emit('add');
+                } else {
+                    this.$emit('edit');
+                    this.editMode = false;
                 }
-
-                location.reload()
-
             } catch(e) {
                 this.snackbar.status = true
                 if(e.response && e.response.data.message) {
@@ -160,14 +157,11 @@ export default {
         },
         async remove(){
             try {
-                await axios.delete(axios.fixUrl(this.value._links.self.href))
-
-                this.editMode = false;
-                this.isDeleted = true;
-
-                this.$emit('input', this.value);
-                this.$emit('delete', this.value);
-
+                await axios.delete(axios.fixUrl('/reviews/' + this.id));
+                if (this.editMode) {
+                    this.editMode = false;
+                }
+                this.$emit('delete');
             } catch(e) {
                 this.snackbar.status = true
                 if(e.response && e.response.data.message) {

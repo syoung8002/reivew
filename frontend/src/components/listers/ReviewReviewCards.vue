@@ -58,57 +58,59 @@ export default {
     },
     data: () => ({
         values: [],
-        newValue: {},
+        newValue: {
+            'itemId': '',
+            'rating': 0,
+            'text': '',
+            'userId': '',
+            'userImg': '',
+        },
         openDialog : false,
+        itemId: '',
         averageRating: 0,
         ratingCounts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
     }),
-    async created() {
+    created() {
         var me = this;
-        try {
-            var temp = null;
-            var url = '/reviews';
-            if (me.data && me.data.itemId) {
-                url = '/reviews/search/findByItemId?itemId=' + me.data.itemId;
+        me.itemId = '';
+        me.getReviewList();
+    },
+    methods:{
+        async getReviewList() {
+            var me = this;
+            try {
+                var temp = null;
+                var url = '/reviews';
+                if (me.data && me.data.itemId) {
+                    me.itemId = me.data.itemId;
+                    url = '/reviews/search/findByItemId?itemId=' + me.itemId;
+                }
+                temp = await axios.get(axios.fixUrl(url));
+                if (temp.data) {
+                    me.values = temp.data._embedded.reviews;
+                } else {
+                    me.value = [];
+                }
+            } catch(e) {
+                console.log(e);
             }
-            temp = await axios.get(axios.fixUrl(url));
-            if (temp.data) {
-                me.values = temp.data._embedded.reviews;
-                me.calculateAverageRating(); // 초기 평균 계산
-            } else {
-                me.values = [];
-            }
-            me.newValue = {
-                'itemId': '',
+        },
+        append(){
+            this.getReviewList();
+            this.calculateAverageRating();
+            this.newValue = {
+                'itemId': this.itemId,
                 'rating': 0,
                 'text': '',
                 'userId': '',
                 'userImg': '',
-            }
-        } catch(e) {
-            console.log(e);
-        }
-    },
-    methods: {
-        append(value) {
-            this.newValue = {};
-            this.values.push(value);
-            this.calculateAverageRating(); // 평균 별점 및 제출자 수 계산
-            this.$emit('input', this.values);
+            };
         },
-        remove(value) {
-            var where = -1;
-            for (var i = 0; i < this.values.length; i++) {
-                if (this.values[i]._links.self.href == value._links.self.href) {
-                    where = i;
-                    break;
-                }
-            }
-            if (where > -1) {
-                this.values.splice(i, 1);
-                this.calculateAverageRating(); // 평균 별점 및 제출자 수 계산
-                this.$emit('input', this.values);
-            }
+        remove() {
+            this.getReviewList();
+        },
+        edit() {
+            this.getReviewList();
         },
         calculateAverageRating() {
             if (this.values.length === 0) {
