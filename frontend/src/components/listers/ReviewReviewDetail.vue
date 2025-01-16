@@ -22,16 +22,16 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="edit" v-if="!editMode">
-                Edit
+                수정
             </v-btn>
             <v-btn color="primary" text @click="save" v-else>
-                Save
+                저장
             </v-btn>
             <v-btn v-if="!editMode" color="primary" text @click="remove">
-                Delete
+                삭제
             </v-btn>
             <v-btn v-if="editMode" color="primary" text @click="editMode = false">
-                Cancel
+                취소
             </v-btn>
         </v-card-actions>
     </v-card>
@@ -73,10 +73,7 @@ export default {
             try {
                 await axios.delete(axios.fixUrl(this.item._links.self.href))
                 this.editMode = false;
-
-                this.$emit('input', this.item);
                 this.$emit('delete', this.item);
-
             } catch(e) {
                 console.log(e)
             }

@@ -1,73 +1,11 @@
 <template>
     <div>
-        <v-card
-            class="mx-auto"
-            outlined
-            color="primary"
-            style="padding:10px 0px 10px 0px; margin-bottom:40px;"
-        >
-            <v-row>
-                <v-list-item class="d-flex" style="background-color: white;">
-                    <h1 class="align-self-center ml-3">Review</h1>
-                    <div class="secondary-text-color" style="margin-left:30px;"></div>
-                </v-list-item>
-            </v-row>
-        </v-card>
-        <div style="margin-bottom:40px;">
-            <div class="text-center">
-                <v-dialog v-model="openDialog"
-                    width="332.5"
-                    fullscreen
-                    hide-overlay
-                    transition="dialog-bottom-transition"
-                >
-                    <ReviewReview :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
-
-                    <v-btn style="position:absolute; top:2%; right:2%" @click="closeDialog()" depressed icon absolute>
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-dialog>
-
-                <v-row>
-                    <v-card
-                        class="mx-auto"
-                        style="height:300px; width:300px; margin-bottom:20px; text-align: center;"
-                        outlined
-                    >
-                        <v-list-item>
-                            <v-list-item-avatar 
-                                class="mx-auto"
-                                size="80"
-                                style="margin-top:80px;"
-                            ><v-icon color="primary" x-large>mdi-plus</v-icon>
-                            </v-list-item-avatar>
-                        </v-list-item>
-
-                        <v-card-actions>
-                            <v-btn 
-                                v-on="on"
-                                class="mx-auto"
-                                outlined
-                                rounded
-                                @click="openDialog=true;"
-                                color="primary"
-                                style="font-weight:500; font-size:20px; padding:15px; border:solid 2px; max-width:250px; overflow:hidden"
-                            >
-                                Review 등록
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-row>
-            </div>
+        <div v-for="(value, index) in values" :key="index" class="my-4">
+            <ReviewReview :isNew="false" :value="value" @delete="remove" class="mx-auto" />
         </div>
-        <v-row justify="center">
-            <v-col v-for="(value, index) in values" :key="index" cols="auto">
-                <ReviewReview 
-                    :value="value" 
-                    @delete="remove"
-                ></ReviewReview>
-            </v-col>
-        </v-row>
+        <div>
+            <ReviewReview :isNew="true" :editMode="true" v-model="newValue" @add="append" class="mx-auto" />
+        </div>
     </div>
 </template>
 
@@ -86,7 +24,6 @@ export default {
     data: () => ({
         values: [],
         newValue: {},
-        tick : true,
         openDialog : false,
     }),
     async created() {
@@ -114,19 +51,11 @@ export default {
         }
     },
     methods:{
-        closeDialog(){
-            this.openDialog = false
-        },
         append(value){
-            this.tick = false
             this.newValue = {}
             this.values.push(value)
             
             this.$emit('input', this.values);
-
-            this.$nextTick(function(){
-                this.tick=true
-            })
         },
         remove(value){
             var where = -1;

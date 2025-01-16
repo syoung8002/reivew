@@ -34,9 +34,6 @@ public class Review {
     public void onPostPersist() {
         ReviewAdded reviewAdded = new ReviewAdded(this);
         reviewAdded.publishAfterCommit();
-
-        ReviewDeleted reviewDeleted = new ReviewDeleted(this);
-        reviewDeleted.publishAfterCommit();
     }
 
     @PreUpdate
@@ -45,6 +42,12 @@ public class Review {
         reviewUpdated.publishAfterCommit();
     }
 
+    @PreRemove
+    public void onPreRemove() {
+        ReviewDeleted reviewDeleted = new ReviewDeleted(this);
+        reviewDeleted.publishAfterCommit();
+    }
+    
     public static ReviewRepository repository() {
         ReviewRepository reviewRepository = ReviewApplication.applicationContext.getBean(
             ReviewRepository.class

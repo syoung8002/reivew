@@ -25,49 +25,21 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <div v-if="!editMode">
-                <v-btn
-                    color="primary"
-                    text
-                    @click="edit"
-                >
+                <v-btn color="primary" text @click="edit">
                     수정
                 </v-btn>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="remove"
-                >
+                <v-btn color="primary" text @click="remove">
                     삭제
                 </v-btn>
             </div>
             <div v-else>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="save"
-                >
-                    AddReview
+                <v-btn v-if="isNew" color="primary" text @click="save">
+                    추가
                 </v-btn>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="save"
-                >
-                    UpdateReview
+                <v-btn v-else color="primary" text @click="save">
+                    저장
                 </v-btn>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="save"
-                >
-                    DeleteReview
-                </v-btn>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="editMode = false"
-                    v-if="editMode && !isNew"
-                >
+                <v-btn v-if="editMode && !isNew" color="primary" text @click="editMode = false">
                     취소
                 </v-btn>
             </div>

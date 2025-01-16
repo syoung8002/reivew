@@ -2,10 +2,7 @@
     <v-app>
         <v-main>
             <v-container fluid>
-                <component 
-                    v-bind:is="componentName" 
-                    :data="data"
-                ></component>
+                <component v-bind:is="componentName" :data="data"></component>
             </v-container>
         </v-main>
     </v-app>
