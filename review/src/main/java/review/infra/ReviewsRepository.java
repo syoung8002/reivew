@@ -5,8 +5,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import review.domain.*;
 
-@RepositoryRestResource(collectionResourceRel = "reviews", path = "reviews")
+@RepositoryRestResource(collectionResourceRel = "reviews_view", path = "reviews_view")
 public interface ReviewsRepository
-    extends PagingAndSortingRepository<Reviews, Long> {
-        List<Reviews> findByItemId(String itemId);
-    }
+    extends PagingAndSortingRepository<Reviews, Long> {}
