@@ -1,18 +1,20 @@
 <template>
-    <v-card width="450" outlined>
-        <v-card-title v-if="!editMode">
+    <div>
+        <v-card-title class="pa-0" v-if="!editMode">
             <v-avatar size="40">
                 <v-img v-if="value.userImg && value.userImg.length > 0" :src="value.userImg"></v-img>
-                <v-icon v-else>mdi-account</v-icon>
+                <v-img v-else 
+                    src="/assets/icon/user.svg" width="48" height="48" class="mx-auto"
+                ></v-img>
             </v-avatar>
             <span class="ml-2">{{ value.userId }}</span>
         </v-card-title>
-        <v-card-title v-else>
-            Review
+        <v-card-title class="pa-0" v-else>
+            리뷰
         </v-card-title>
 
-        <v-card-text>
-            <v-row class="ma-0 pa-4 pl-0 pr-0 align-center">
+        <v-card-text class="pa-0">
+            <v-row class="ma-0 pa-0 align-center">
                 <div>별점 :</div>
                 <v-rating
                     v-model="value.rating"
@@ -60,7 +62,7 @@
                 Close
             </v-btn>
         </v-snackbar>
-    </v-card>
+    </div>
 </template>
 
 <script>

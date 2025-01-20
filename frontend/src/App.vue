@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-main>
-            <v-container fluid>
+            <v-container fluid class="pa-0">
                 <component v-bind:is="componentName" :data="data"></component>
             </v-container>
         </v-main>
@@ -40,4 +40,7 @@ export default {
 
 
 <style>
+html {
+    overflow: hidden;
+}
 </style>

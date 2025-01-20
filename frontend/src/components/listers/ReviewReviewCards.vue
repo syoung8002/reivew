@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-row class="ma-0 pa-0 justify-center align-center">
-            <v-col cols="auto" class="text-center">
+        <v-row class="ma-0 pa-0">
+            <div class="text-center">
                 <div style="font-size:64px; font-weight: 500;">{{ averageRating }}</div>
                 <v-rating
                     v-model="averageRating"
@@ -11,8 +11,8 @@
                     readonly
                     length="5"
                 ></v-rating>
-            </v-col>
-            <div>
+            </div>
+            <div class="ml-4 mr-4">
                 <div v-for="(count, rating) in ratingCounts" :key="rating">
                     <v-row class="ma-0 pa-0 justify-center align-center">
                         <div style="font-weight: 700;">{{ rating }}점</div>
@@ -29,19 +29,22 @@
                     </v-row>
                 </div>
             </div>
-            <v-divider vertical class="mx-4"></v-divider>
-            <v-col cols="auto" class="text-center align-center">
+            <div class="text-center align-center">
                 <div style="font-size:12px; font-weight: 700;">전체 리뷰수</div>
                 <v-img src="/assets/icon/chat.svg" width="48" height="48" class="mx-auto"></v-img>
                 <div style="font-size:32px; font-weight: 700;">{{ values.length }}</div>
-            </v-col>
-        </v-row>
-        <v-row class="justify-center">
-            <v-col v-for="(value, index) in values" :key="index" cols="auto">
-                <ReviewReview :isNew="false" :value="value" @delete="remove" @edit="edit" class="mx-auto" />
-            </v-col>
-            <v-col cols="auto">
-                <ReviewReview :isNew="true" v-model="newValue" @add="append" class="mx-auto" />
+            </div>
+            <v-divider vertical class="mx-4"></v-divider>
+            <v-col class="pa-0" style="width: 100%; height: 100vh; overflow: auto;">
+                <div>
+                    <v-col class="pa-0" v-for="(value, index) in values" :key="index">
+                        <ReviewReview :isNew="false" :value="value" @delete="remove" @edit="edit" class="mx-auto mt-2" />
+                        <v-divider></v-divider>
+                    </v-col>
+                </div>
+                <v-col class="pa-0">
+                    <ReviewReview :isNew="true" v-model="newValue" @add="append" class="mx-auto" />
+                </v-col>
             </v-col>
         </v-row>
     </div>
