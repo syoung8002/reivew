@@ -12,25 +12,28 @@
                     length="5"
                 ></v-rating>
             </v-col>
-            <v-col cols="auto">
-                <div v-for="(count, rating) in ratingCounts" :key="rating" class="text-center align-center">
-                    <v-row class="ma-0 pa-0">
-                        <v-col class="pa-0">
-                            <div>{{ rating }}</div>
-                        </v-col>
-                        <v-col class="pa-0 pt-2 pl-1 pr-1">
-                            <v-progress-linear style="width:100px;"
+            <div>
+                <div v-for="(count, rating) in ratingCounts" :key="rating">
+                    <v-row class="ma-0 pa-0 justify-center align-center">
+                        <div style="font-weight: 700;">{{ rating }}점</div>
+                        <div class="ml-2 mr-2">
+                            <v-progress-linear
+                                style="width:100px;"
                                 :value="(count / values.length) * 100"
                                 height="5"
                                 color="blue"
                                 rounded
                             ></v-progress-linear>
-                        </v-col>
-                        <v-col class="pa-0">
-                            <div>{{ count }}</div>
-                        </v-col>
+                        </div>
+                        <div style="opacity: 0.7;">{{ count }}</div>
                     </v-row>
                 </div>
+            </div>
+            <v-divider vertical class="mx-4"></v-divider>
+            <v-col cols="auto" class="text-center align-center">
+                <div style="font-size:12px; font-weight: 700;">전체 리뷰수</div>
+                <v-img src="/assets/icon/chat.svg" width="48" height="48" class="mx-auto"></v-img>
+                <div style="font-size:32px; font-weight: 700;">{{ values.length }}</div>
             </v-col>
         </v-row>
         <v-row class="justify-center">
@@ -88,14 +91,15 @@ export default {
                 temp = await axios.get(axios.fixUrl(url));
                 if (temp.data) {
                     me.values = temp.data._embedded.reviews;
+                    me.calculateAverageRating(); // 데이터 로드 후 평균 계산
                 } else {
-                    me.value = [];
+                    me.values = [];
                 }
             } catch(e) {
                 console.log(e);
             }
         },
-        append(){
+        append() {
             this.getReviewList();
             this.calculateAverageRating();
             this.newValue = {
@@ -108,9 +112,11 @@ export default {
         },
         remove() {
             this.getReviewList();
+            this.calculateAverageRating(); // 데이터 변경 후 평균 계산
         },
         edit() {
             this.getReviewList();
+            this.calculateAverageRating(); // 데이터 변경 후 평균 계산
         },
         calculateAverageRating() {
             if (this.values.length === 0) {
@@ -119,7 +125,7 @@ export default {
                 return;
             }
             const total = this.values.reduce((sum, review) => sum + (review.rating || 0), 0);
-            this.averageRating = (total / this.values.length).toFixed(1); // 모든 등록된 별점의 평균 계산
+            this.averageRating = (total / this.values.length).toFixed(1);
 
             // 각 점수별 제출자 수 계산
             this.ratingCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };

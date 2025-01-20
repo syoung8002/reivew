@@ -12,17 +12,18 @@
         </v-card-title>
 
         <v-card-text>
-            <String label="ItemId" v-model="value.itemId" :editMode="editMode" :inputUI="''" />
-            <v-rating
-                v-model="value.rating"
-                color="yellow"
-                background-color="grey"
-                dense
-                :readonly="!editMode"
-                length="5"
-            ></v-rating>
-            <String label="Text" v-model="value.text" :editMode="editMode" :inputUI="''" />
-            <String v-if="editMode" label="UserId" v-model="value.userId" :editMode="editMode" :inputUI="''" />
+            <v-row class="ma-0 pa-4 pl-0 pr-0 align-center">
+                <div>별점 :</div>
+                <v-rating
+                    v-model="value.rating"
+                    color="blue"
+                    background-color="grey"
+                    dense
+                    :readonly="!editMode"
+                    length="5"
+                ></v-rating>
+            </v-row>
+            <String label="리뷰작성" v-model="value.text" :editMode="editMode" :inputUI="'TEXTAREA'" />
         </v-card-text>
 
         <v-card-actions>

@@ -1,10 +1,12 @@
 <template>
     <div>
-        <div v-if="editMode" style="margin-top:-20px;">
+        <div v-if="editMode">
             <v-textarea v-if="multiLine"
                     :label="label" 
                     v-model="value"
                     @change="change"
+                    outlined
+                    auto-grow
             />
             <v-text-field v-else
                     :label="label" 
