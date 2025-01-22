@@ -14,7 +14,9 @@
         </v-card-title>
 
         <v-card-text class="pa-0">
-            <v-row class="ma-0 pa-0 align-center">
+            <v-row class="ma-0 pa-0 align-center"
+                :class="editMode ? 'mb-4' : ''"
+            >
                 <div>별점 :</div>
                 <v-rating
                     v-model="value.rating"
@@ -25,10 +27,10 @@
                     length="5"
                 ></v-rating>
             </v-row>
-            <String label="리뷰작성" v-model="value.text" :editMode="editMode" :inputUI="'TEXTAREA'" />
+            <String label="리뷰" v-model="value.text" :editMode="editMode" :inputUI="'TEXTAREA'" :showLabel="false"/>
         </v-card-text>
 
-        <v-card-actions>
+        <v-card-actions class="pa-0">
             <v-spacer></v-spacer>
             <div v-if="!editMode">
                 <v-btn color="primary" text @click="edit">
@@ -156,7 +158,6 @@ export default {
                     this.snackbar.text = e
                 }
             }
-            
         },
         async remove(){
             try {
