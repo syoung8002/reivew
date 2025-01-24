@@ -40,7 +40,4 @@ export default {
 
 
 <style>
-html {
-    overflow: hidden;
-}
 </style>

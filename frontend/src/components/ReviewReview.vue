@@ -1,46 +1,53 @@
 <template>
     <div>
-        <v-card-title class="pa-0" v-if="!editMode">
+        <v-row class="pa-0 ma-0 align-center" v-if="!editMode">
             <v-avatar size="40">
                 <v-img v-if="value.userImg && value.userImg.length > 0" :src="value.userImg"></v-img>
                 <v-img v-else 
                     src="/assets/icon/user.svg" width="48" height="48" class="mx-auto"
                 ></v-img>
             </v-avatar>
-            <span class="ml-2">{{ value.userId }}</span>
-        </v-card-title>
+            <span class="ml-2">{{ value.userId }} 유저 ID</span>
+            <v-spacer></v-spacer>
+            <div v-if="!editMode">
+                <v-btn icon text @click="edit">
+                    <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn icon text @click="remove">
+                    <v-icon>mdi-delete</v-icon>
+                </v-btn>
+            </div>
+        </v-row>
         <v-card-title class="pa-0" v-else>
-            리뷰
+            리뷰 작성
         </v-card-title>
 
         <v-card-text class="pa-0">
             <v-row class="ma-0 pa-0 align-center"
                 :class="editMode ? 'mb-4' : ''"
             >
-                <div>별점 :</div>
+                <div v-if="editMode">별점 :</div>
                 <v-rating
                     v-model="value.rating"
                     color="blue"
                     background-color="grey"
                     dense
                     :readonly="!editMode"
+                    :size="!editMode ? '18' : ''"
                     length="5"
                 ></v-rating>
             </v-row>
-            <String label="리뷰" v-model="value.text" :editMode="editMode" :inputUI="'TEXTAREA'" :showLabel="false"/>
+            <String label="리뷰" v-model="value.text" 
+                :editMode="editMode" 
+                :inputUI="'TEXTAREA'" 
+                :showLabel="false"
+                style="white-space: pre-wrap;"
+            />
         </v-card-text>
 
-        <v-card-actions class="pa-0">
+        <v-card-actions class="pa-0" v-if="editMode">
             <v-spacer></v-spacer>
-            <div v-if="!editMode">
-                <v-btn color="primary" text @click="edit">
-                    수정
-                </v-btn>
-                <v-btn color="primary" text @click="remove">
-                    삭제
-                </v-btn>
-            </div>
-            <div v-else>
+            <div>
                 <v-btn v-if="isNew" color="primary" text @click="save">
                     추가
                 </v-btn>
