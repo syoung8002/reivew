@@ -71,8 +71,6 @@ export default {
     },
     props: {
         data: Object,
-        
-        
         // showReviews 등록된 리뷰 보기,
         showReviews: {
             type: Boolean,
